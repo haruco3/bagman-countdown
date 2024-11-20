@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<head>
+	<title>Bagman Countdown</title>
+	<style>
+		@keyframes rotate-bg {
+			from {
+				background: repeating-conic-gradient(from 0deg, gold 0deg 10deg,
+						goldenrod 10deg 20deg);
+			}
+
+			50% {
+				background: repeating-conic-gradient(from 10deg, gold 0deg 10deg,
+						goldenrod 10deg 20deg);
+			}
+
+			to {
+				background: repeating-conic-gradient(from 20deg, gold 0deg 10deg,
+						goldenrod 10deg 20deg);
+			}
+		}
+
+		body {
+			font-family: Arial, Helvetica, sans-serif;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+			animation-name: rotate-bg;
+			animation-duration: 2s;
+			animation-iteration-count: infinite;
+		}
+
+		.info {
+			font-size: 2em;
+		}
+
+		.countdown {
+			display: flex;
+			column-gap: 2em;
+		}
+
+		.countdown-part {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.countdown-part p {
+			margin: 10px 0;
+		}
+
+		.countdown-part p:first-child {
+			font-size: 5em;
+			font-family: monospace;
+			width: 3ch;
+			text-align: center;
+		}
+	</style>
+	<script type="module">
+		const dateField = document.querySelector(`[data-target="date"]`);
+		const future = new Date("2025-03-01 16:00");
+
+		function countdown() {
+			const current = new Date(Date.now());
+			const obj = {};
+
+			let seconds = (future - current) / 1000;
+
+			obj.days = Math.floor(seconds / 86400);
+			seconds -= obj.days * 86400;
+
+			obj.hours = Math.floor(seconds / 3600) % 24;
+			seconds -= obj.hours * 3600;
+
+			obj.minutes = Math.floor(seconds / 60) % 60;
+			seconds -= obj.minutes * 60;
+
+			obj.seconds = Math.floor(seconds)
+
+			for (const part of ["days", "hours", "minutes", "seconds"]) {
+				document.querySelector(`[data-target="${part}"]`).textContent = obj[part];
+			}
+		}
+
+		window.setInterval(countdown, 1000);
+		countdown();
+	</script>
+</head>
+
+<body>
+	<p class="info">Cheesy will cease to be THE bagman of the Morris Ring in:</p>
+	<div class="countdown">
+		<div class="countdown-part">
+			<p data-target="days"></p>
+			<p>Days</p>
+		</div>
+		<div class="countdown-part">
+			<p data-target="hours"></p>
+			<p>Hours</p>
+		</div>
+		<div class="countdown-part">
+			<p data-target="minutes"></p>
+			<p>Minutes</p>
+		</div>
+		<div class="countdown-part">
+			<p data-target="seconds"></p>
+			<p>Seconds</p>
+		</div>
+	</div>
+</body>
